@@ -16,6 +16,7 @@ public:
     void printResults() const;
     void setOmega(double omega);
 private:
+    double omega_ = 0;
     std::vector<Bipole*> bipoles;
     /*Adjacency matrix A with connections between nodes*/
     Eigen::MatrixXd A;

@@ -1,0 +1,5 @@
+/home/davide/Downloads/circuit_solver/build/CMakeFiles/CircuitGUI.dir
+/home/davide/Downloads/circuit_solver/build/CMakeFiles/edit_cache.dir
+/home/davide/Downloads/circuit_solver/build/CMakeFiles/rebuild_cache.dir
+/home/davide/Downloads/circuit_solver/build/CMakeFiles/CircuitGUI_autogen_timestamp_deps.dir
+/home/davide/Downloads/circuit_solver/build/CMakeFiles/CircuitGUI_autogen.dir

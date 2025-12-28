@@ -3,6 +3,7 @@
 
 void Circuit::addBipole(Bipole* bipole) {
     bipoles.push_back(bipole);
+    bipole->setOmega(omega_);
 }
 
 void Circuit::setActiveComponents() {
@@ -136,7 +137,7 @@ void Circuit::KCLSolve() {
 	Bipole* bipole = bipoles[i];
 	if (bipole->getType() == Type::VOLTAGE_SOURCE) {
 	    Y(i, i) = std::complex<double>(0.0, 0.0); // Ideal Voltage Source
-	    Vb(i) = bipole->getVoltage();
+	    Vb(i) = std::complex<double>(0.0, 0.0);//bipole->getVoltage();
 	    ++vsIndex;
 	} else {
 	    if (bipole->getType() == Type::RESISTOR || bipole->getType() == Type::CAPACITOR || bipole->getType() == Type::INDUCTOR) {
@@ -214,12 +215,13 @@ void Circuit::KCLSolve() {
     }
 
     // --- 8) Update bipole voltages and currents
-    Eigen::VectorXcd branchVoltages = M.transpose() * nodeVoltages + Vb; // m-vector
+    Eigen::VectorXcd branchVoltages = M.transpose() * nodeVoltages;// + Vb; // m-vector
     Eigen::VectorXcd branchCurrents = Y * branchVoltages + I_branch; // m-ve
     
     // Set standard Branch sizes
     for (int j = 0, vsj = 0; j < numEdges; ++j) {
 	Bipole* bipole = bipoles[j];
+	bipole->setVoltage(branchVoltages(j));
 	if (bipoles[j]->getType() == Type::VOLTAGE_SOURCE) {
 	    // Current through Voltage source comes from x_aug
 	    std::complex<double> i_v = x_aug.segment(n-1, numVoltageSources)(vsj++);
@@ -231,8 +233,9 @@ void Circuit::KCLSolve() {
 }
 
 void Circuit::setOmega(double omega) {
+    omega_ = omega;
     for (Bipole* bipole : bipoles) {
-	bipole->setOmega(omega);
+	bipole->setOmega(omega_);
     }
 }
 

@@ -15,7 +15,7 @@ std::complex<double> Bipole::getImpedance() const {
         if (capacitor) {
   	    std::complex<double> imp;
 	    if (omega != 0) {
-            	imp = std::complex<double>(0, 1 / (capacitor->getCapacitance() * omega));
+            	imp = std::complex<double>(0, -1 / (capacitor->getCapacitance() * omega));
 		return imp;
 	    } else {
 		return std::complex<double>(1e12, 0);
